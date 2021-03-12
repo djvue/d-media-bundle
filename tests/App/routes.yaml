@@ -1,0 +1,5 @@
+media:
+    resource: '@DMediaBundle/Resources/config/routes/media.yaml'
+    prefix: '/media'
+    trailing_slash_on_root: false
+    name_prefix: media_

@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+    php-debug-cli:
+        image: ggpa/php:8.0.2-cli-debug
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www
+        command: "/bin/sh -c 'while true; do sleep 60; done'"
+        environment:
+            PHP_IDE_CONFIG: serverName=d-media-bundle

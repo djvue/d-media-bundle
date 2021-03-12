@@ -1,0 +1,24 @@
+upload:
+    path: ''
+    methods: ['POST']
+    controller: Djvue\DMediaBundle\Controller\MediaController::upload
+
+update:
+    path: /{id<\d+>}
+    methods: ['PUT']
+    controller: Djvue\DMediaBundle\Controller\MediaController::update
+
+delete:
+    path: /{id<\d+>}
+    methods: ['DELETE']
+    controller: Djvue\DMediaBundle\Controller\MediaController::delete
+
+get:
+    path: /{id<\d+>}
+    methods: [ 'GET', 'HEAD' ]
+    controller: Djvue\DMediaBundle\Controller\MediaController::get
+
+getList:
+    path: ''
+    methods: ['GET', 'HEAD']
+    controller: Djvue\DMediaBundle\Controller\MediaController::getList

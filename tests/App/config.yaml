@@ -1,0 +1,71 @@
+services:
+#    _defaults:
+#        autowire: false
+#        autoconfigure: false
+#        public: false
+#    Djvue\DMediaBundle\:
+#        resource: '../../src/'
+#        public: true
+#        exclude:
+#            - '../../src/DependencyInjection/'
+#            - '../../src/Entity/'
+#            - '../../src/DMediaBundle.php'
+#    Djvue\DMediaBundle\Controller\:
+#        resource: '../../src/Controller'
+#        autowire: true
+#        tags: ['controller.service_arguments']
+    Djvue\DMediaBundle\DataFixtures\:
+        autowire: true
+        autoconfigure: true
+        resource: '../../src/DataFixtures/*'
+        tags: ['doctrine.fixture.orm']
+    Djvue\DMediaBundle\Tests\App\EventListener\ExceptionListener:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            - '%kernel.debug%'
+            - '@logger'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+framework:
+    test: true
+    php_errors:
+        log: true
+doctrine:
+    dbal:
+        url: 'sqlite:///:memory:'
+
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '13'
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'Djvue\DMediaBundle\Entity'
+                alias: App
+doctrine_migrations:
+    migrations_paths:
+        # namespace is arbitrary but should be different from App\Migrations
+        # as migrations classes should NOT be autoloaded
+        'DoctrineMigrations': '%kernel.project_dir%/migrations'
+
+#liip_test_fixtures:
+#    cache_db:
+#        sqlite: liip_test_fixtures.services_database_backup.sqlite
+
+flysystem:
+    storages:
+        medias.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/var/storage/media'
+        default.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/var/storage/default'

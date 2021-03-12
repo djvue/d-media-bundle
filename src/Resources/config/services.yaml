@@ -1,0 +1,11 @@
+services:
+    Djvue\DMediaBundle\:
+        resource: '../../'
+        autowire: true
+        autoconfigure: true
+        public: true
+        exclude:
+            - '../../DependencyInjection/'
+            - '../../Entity/'
+            - '../../DTO/'
+            - '../../DMediaBundle.php'
