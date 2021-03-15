@@ -60,7 +60,7 @@ final class MediaController extends AbstractController
 
     private function getForbiddenResponse(string $message = 'Access denied'): JsonResponse
     {
-        return $this->getResponse(true, JsonResponse::HTTP_FORBIDDEN, $message);
+        return $this->getResponse(false, JsonResponse::HTTP_FORBIDDEN, $message);
     }
 
     private function getOkResponse(array $data = []): JsonResponse
