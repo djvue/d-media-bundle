@@ -13,10 +13,10 @@ delete:
     methods: ['DELETE']
     controller: Djvue\DMediaBundle\Controller\MediaController::delete
 
-get:
+find:
     path: /{id<\d+>}
     methods: [ 'GET', 'HEAD' ]
-    controller: Djvue\DMediaBundle\Controller\MediaController::get
+    controller: Djvue\DMediaBundle\Controller\MediaController::find
 
 getList:
     path: ''

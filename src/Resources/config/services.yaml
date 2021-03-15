@@ -9,3 +9,12 @@ services:
             - '../../Entity/'
             - '../../DTO/'
             - '../../DMediaBundle.php'
+
+    d_media.media_service:
+        class: Djvue\DMedia\Service\MediaService
+
+    d_media.media_entity_service:
+        class: Djvue\DMedia\Service\MediaEntityService
+
+    d_media.media_controller:
+        class: Djvue\DMedia\Controller\MediaController

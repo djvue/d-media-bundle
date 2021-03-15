@@ -9,9 +9,7 @@ use Djvue\DMediaBundle\DataFixtures\MediaFixtures;
 use Djvue\DMediaBundle\Entity\EntityHasMedia;
 use Djvue\DMediaBundle\Entity\Media;
 use Djvue\DMediaBundle\Repository\EntityHasMediaRepository;
-use Djvue\DMediaBundle\Repository\MediaRepository;
 use Djvue\DMediaBundle\Service\MediaEntityService;
-use Djvue\DMediaBundle\Tests\App\Entity\Workspace;
 use Djvue\DMediaBundle\Tests\BaseWebTestCase;
 
 /**
@@ -26,7 +24,7 @@ final class MediaEntityServiceTest extends BaseWebTestCase
         EntityHasMediaFixtures::class,
     ];
 
-    public function testGetEntityType(): string
+    public function testGetEntityType(): void
     {
         $entityType = self::$container->get(MediaEntityService::class)->getEntityType(Media::class);
         self::assertEquals('media', $entityType);

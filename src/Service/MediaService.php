@@ -28,14 +28,13 @@ class MediaService
     }
 
     /**
-     * @param int $id
+     * @param Media $media
      * @param MediaUpdateDTO $dto
      * @return Media
      * @throws MediaNotFoundException
      */
-    public function update(int $id, MediaUpdateDTO $dto): Media
+    public function update(Media $media, MediaUpdateDTO $dto): Media
     {
-        $media = $this->find($id);
         $media->setAltText($dto->getAltText());
         $media->setCaption($dto->getCaption());
         $entities = $dto->getEntities();
@@ -47,7 +46,7 @@ class MediaService
         return $media;
     }
 
-    private function find(int $id): Media
+    public function find(int $id): Media
     {
         $media = $this->repository->find($id);
         if (null === $media) {
@@ -55,16 +54,6 @@ class MediaService
         }
 
         return $media;
-    }
-
-    /**
-     * @param int $id
-     * @return Media
-     * @throws MediaNotFoundException
-     */
-    public function get(int $id): Media
-    {
-        return $this->find($id);
     }
 
     /**
@@ -108,12 +97,10 @@ class MediaService
     }
 
     /**
-     * @param int $id
-     * @throws MediaNotFoundException
+     * @param Media $media
      */
-    public function remove(int $id): void
-    {
-        $media = $this->find($id);
+    public function remove(Media $media): void
+    {;
         $this->entityManager->remove($media);
         $this->entityManager->flush();
     }

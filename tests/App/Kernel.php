@@ -12,6 +12,7 @@ use League\FlysystemBundle\FlysystemBundle;
 use Liip\TestFixturesBundle\LiipTestFixturesBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
@@ -27,11 +28,13 @@ class Kernel extends BaseKernel
 
     public function registerBundles()
     {
+        // $securityBundle = new SecurityBundle();
         return [
             new FrameworkBundle(),
             new DoctrineBundle(),
             new DoctrineMigrationsBundle(),
             new FlysystemBundle(),
+            new SecurityBundle(),
             new DoctrineFixturesBundle(),
             new LiipTestFixturesBundle(),
             new DMediaBundle(),

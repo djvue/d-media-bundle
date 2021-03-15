@@ -175,6 +175,21 @@ class MediaEntityService
     /**
      * @param Media $media
      * @param string $entityType
+     * @return EntityHasMedia[]
+     */
+    public function getEntitiesOfType(Media $media, string $entityType): array
+    {
+        $criteria = [
+            'media' => $media,
+            'entityType' => $entityType,
+        ];
+
+        return $this->entityHasMediaRepository->findBy($criteria);
+    }
+
+    /**
+     * @param Media $media
+     * @param string $entityType
      * @param int[] $entityIds
      * @param string $propertyName
      */

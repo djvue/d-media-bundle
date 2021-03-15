@@ -37,7 +37,7 @@ final class MediaControllerTest extends BaseWebTestCase
         echo $output;
     }*/
 
-    public function testGet(): void
+    public function testFind(): void
     {
         $id = 1;
         $data = $this->api('GET', '/media/'.$id);
@@ -115,7 +115,7 @@ final class MediaControllerTest extends BaseWebTestCase
 
     public function testGetList(): void
     {
-        $data = $this->api('GET', '/media?page=2&limit=1&entities=%7B%22workspace%22:[2]%7D');
+        $data = $this->api('GET', '/media?page=1&limit=1&entities=%7B%22workspace%22:[2]%7D');
         $this->assertApiSuccess();
         self::assertIsArray($data['data']['medias']);
         self::assertNotEmpty($data['data']['medias']);
