@@ -8,7 +8,13 @@ services:
             - '../../DependencyInjection/'
             - '../../Entity/'
             - '../../DTO/'
+            - '../../Security/'
             - '../../DMediaBundle.php'
+
+    Djvue\DMediaBundle\Security\:
+        resource: '../../Security'
+        autowire: true
+        public: true
 
     d_media.media_service:
         class: Djvue\DMedia\Service\MediaService
