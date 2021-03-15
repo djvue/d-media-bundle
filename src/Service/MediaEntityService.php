@@ -135,10 +135,10 @@ class MediaEntityService
      * @param string $propertyName
      * @return Media|null
      */
-    public function getMedia(string $entityType, int $entityId, string $propertyName): ?Media
+    public function getOneMedia(string $entityType, int $entityId, string $propertyName = ''): ?Media
     {
-        /** @var ?EntityHasMedia $mediaProject */
-        $mediaProject = $this->entityHasMediaRepository
+        /** @var ?EntityHasMedia $entityHasMedia */
+        $entityHasMedia = $this->entityHasMediaRepository
             ->findOneBy(
                 [
                     'entityType' => $entityType,
@@ -147,7 +147,31 @@ class MediaEntityService
                 ]
             );
 
-        return $mediaProject?->getMedia();
+        return $entityHasMedia?->getMedia();
+    }
+
+    /**
+     * @param string $entityType
+     * @param int $entityId
+     * @param string $propertyName
+     * @return Media[]
+     */
+    public function getMedias(string $entityType, int $entityId, string $propertyName = ''): array
+    {
+        // TODO: join media with entity_has_media for optimization (N + 1 requests to db -> 1 request to db)
+        $entityHasMedias = $this->entityHasMediaRepository
+            ->findBy(
+                [
+                    'entityType' => $entityType,
+                    'entityId' => $entityId,
+                    'propertyName' => $propertyName,
+                ]
+            );
+
+        return array_map(
+            static fn (EntityHasMedia $entityHasMedia) => $entityHasMedia->getMedia(),
+            $entityHasMedias
+        );
     }
 
     /**
