@@ -4,6 +4,7 @@ namespace Djvue\DMediaBundle\Controller;
 
 use Djvue\DMediaBundle\DTO\MediaGetListParametersDTO;
 use Djvue\DMediaBundle\DTO\MediaUpdateDTO;
+use Djvue\DMediaBundle\DTO\MediaUploadDTO;
 use Djvue\DMediaBundle\Entity\Media;
 use Djvue\DMediaBundle\Exceptions\MediaNotFoundException;
 use Djvue\DMediaBundle\Normalizer\MediaNormalizer;
@@ -129,10 +130,16 @@ final class MediaController extends AbstractController
     public function upload(Request $request): JsonResponse
     {
         $file = $request->files->get('file');
+        if ($file === null) {
+            return $this->getBadInputResponse('file not found');
+        }
+        $dto = new MediaUploadDTO(
+            $request->files->get('file'),
+            json_decode($request->request->get('entities', ''), true) ?? [],
+        );
         try {
-            $voterMedia = new Media();
-            $this->denyAccessUnlessGranted(MediaPermissions::UPLOAD, $voterMedia);
-            $media = $this->mediaService->upload($file);
+            $this->denyAccessUnlessGranted(MediaPermissions::UPLOAD, $dto);
+            $media = $this->mediaService->upload($dto);
         } catch (AccessDeniedException $exception) {
             return $this->getForbiddenResponse($exception->getMessage());
         }

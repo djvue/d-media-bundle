@@ -80,15 +80,15 @@ class MediaEntityService
         int $mediaId,
         int $listOrder = 0
     ): void {
-        $mediaProject = new EntityHasMedia();
-        $mediaProject->setEntityType($entityType);
-        $mediaProject->setEntityId($entityId);
+        $entityHasMedia = new EntityHasMedia();
+        $entityHasMedia->setEntityType($entityType);
+        $entityHasMedia->setEntityId($entityId);
         /** @var Media $media */
         $media = $this->entityManager->getReference(Media::class, $mediaId);
-        $mediaProject->setMedia($media);
-        $mediaProject->setPropertyName($propertyName);
-        $mediaProject->setListOrder($listOrder);
-        $this->entityManager->persist($mediaProject);
+        $entityHasMedia->setMedia($media);
+        $entityHasMedia->setPropertyName($propertyName);
+        $entityHasMedia->setListOrder($listOrder);
+        $this->entityManager->persist($entityHasMedia);
     }
 
     public function cloneMedias(string $entityType, int $entityId, int $newEntityId): void

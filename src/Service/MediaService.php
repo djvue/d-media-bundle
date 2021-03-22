@@ -4,6 +4,7 @@ namespace Djvue\DMediaBundle\Service;
 
 use Djvue\DMediaBundle\DTO\MediaGetListParametersDTO;
 use Djvue\DMediaBundle\DTO\MediaUpdateDTO;
+use Djvue\DMediaBundle\DTO\MediaUploadDTO;
 use Djvue\DMediaBundle\Entity\Media;
 use Djvue\DMediaBundle\Repository\MediaRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,12 +58,14 @@ class MediaService
     }
 
     /**
-     * @param UploadedFile $file
+     * @param MediaUploadDTO $dto
      * @return Media
      * @throws FilesystemException
      */
-    public function upload(UploadedFile $file): Media
+    public function upload(MediaUploadDTO $dto): Media
     {
+        $file = $dto->getFile();
+        $entities = $dto->getEntities();
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = strtolower($this->slugger->slug($originalFilename));
         $extension = $file->guessExtension() ?? 'unknown';
@@ -82,6 +85,10 @@ class MediaService
         $mimeType = $file->getMimeType();
         $media->setMimeType($mimeType);
         $this->entityManager->persist($media);
+        $this->entityManager->flush();
+        foreach ($entities as $entityType => $entityIds) {
+            $this->mediaEntityService->syncMediaEntities($media, $entityType, $entityIds);
+        }
         $this->entityManager->flush();
 
         return $media;

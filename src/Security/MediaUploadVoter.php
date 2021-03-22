@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Djvue\DMediaBundle\Security;
 
-use Djvue\DMediaBundle\DTO\MediaGetListParametersDTO;
+use Djvue\DMediaBundle\DTO\MediaUploadDTO;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class MediaGetListVoter extends Voter
+class MediaUploadVoter extends Voter
 {
     #[Pure]
     protected function supports(
         string $attribute,
         $subject
     ): bool {
-        if (MediaPermissions::GET_LIST !== $attribute) {
+        if (MediaPermissions::UPLOAD !== $attribute) {
             return false;
         }
 
-        if (!$subject instanceof MediaGetListParametersDTO) {
+        if (!$subject instanceof MediaUploadDTO) {
             return false;
         }
 
@@ -29,7 +29,7 @@ class MediaGetListVoter extends Voter
 
     /**
      * @param string $attribute
-     * @param MediaGetListParametersDTO $subject
+     * @param MediaUploadDTO $subject
      * @param TokenInterface $token
      * @return bool
      */

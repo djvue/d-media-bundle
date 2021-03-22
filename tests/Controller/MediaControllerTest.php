@@ -58,7 +58,7 @@ final class MediaControllerTest extends BaseWebTestCase
 
     public function testUpload(): void
     {
-        $this->client->request('POST', '/media', [], ['file' => $this->getFile()]);
+        $this->client->request('POST', '/media', ['entities' => json_encode(['workspace' => [1]])], ['file' => $this->getFile()]);
         $data = $this->clientJsonData();
         $this->assertApiCreated();
 
