@@ -9,6 +9,7 @@ services:
             - '../../Entity/'
             - '../../DTO/'
             - '../../Security/'
+            - '../../DataFixtures/'
             - '../../DMediaBundle.php'
 
     Djvue\DMediaBundle\Security\:
