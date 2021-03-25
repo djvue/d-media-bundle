@@ -95,7 +95,7 @@ class MediaEntityService
     {
         $mediaProjectRelations = $this->entityHasMediaRepository->findBy(
             [
-                'entityType' => $this->getEntityType($entityType),
+                'entityType' => $entityType,
                 'entityId' => $entityId,
             ]
         );
