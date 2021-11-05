@@ -28,10 +28,7 @@ class MediaGetListVoter extends Voter
     }
 
     /**
-     * @param string $attribute
      * @param MediaGetListParametersDTO $subject
-     * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {

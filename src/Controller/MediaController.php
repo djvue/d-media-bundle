@@ -7,23 +7,18 @@ use Djvue\DMediaBundle\DTO\MediaUpdateDTO;
 use Djvue\DMediaBundle\DTO\MediaUploadDTO;
 use Djvue\DMediaBundle\Entity\Media;
 use Djvue\DMediaBundle\Exceptions\MediaNotFoundException;
-use Djvue\DMediaBundle\Normalizer\MediaNormalizer;
-use Djvue\DMediaBundle\Security\MediaListGateInterface;
 use Djvue\DMediaBundle\Security\MediaPermissions;
-use Djvue\DMediaBundle\Service\MediaService;
+use Djvue\DMediaBundle\Service\MediaServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 final class MediaController extends AbstractController
 {
     public function __construct(
-        private MediaService $mediaService,
-        private MediaNormalizer $mediaNormalizer,
-        private SerializerInterface $serializer,
+        private MediaServiceInterface $mediaService,
     ) {
     }
 
@@ -61,17 +56,17 @@ final class MediaController extends AbstractController
 
     private function getForbiddenResponse(string $message = 'Access denied'): JsonResponse
     {
-        return $this->getResponse(false, JsonResponse::HTTP_FORBIDDEN, $message);
+        return $this->getResponse(false, Response::HTTP_FORBIDDEN, $message);
     }
 
     private function getOkResponse(array $data = []): JsonResponse
     {
-        return $this->getResponse(true, JsonResponse::HTTP_OK, 'ok', $data);
+        return $this->getResponse(true, Response::HTTP_OK, 'ok', $data);
     }
 
     private function getCreatedResponse(array $data = []): JsonResponse
     {
-        return $this->getResponse(true, JsonResponse::HTTP_CREATED, 'created', $data);
+        return $this->getResponse(true, Response::HTTP_CREATED, 'created', $data);
     }
 
     private function isSecurityEnabled(): bool

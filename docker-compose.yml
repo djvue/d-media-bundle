@@ -1,11 +1,13 @@
-version: "3.7"
+version: "3.8"
 
 services:
     php-debug-cli:
-        image: ggpa/php:8.0.2-cli-debug
+        image: ggpa/php:8.0.10-cli-debug
         restart: unless-stopped
         volumes:
             - ./:/var/www
         command: "/bin/sh -c 'while true; do sleep 60; done'"
         environment:
-            PHP_IDE_CONFIG: serverName=d-media-bundle
+            PHP_IDE_CONFIG: $PHP_IDE_CONFIG
+        extra_hosts:
+            - "dockerhost:172.17.0.1"

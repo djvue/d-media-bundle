@@ -5,14 +5,13 @@ namespace Djvue\DMediaBundle\Normalizer;
 use Djvue\DMediaBundle\Entity\Media;
 use Djvue\DMediaBundle\Service\MediaEntityService;
 use JetBrains\PhpStorm\Pure;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class MediaNormalizer implements NormalizerInterface
 {
     public function __construct(
-        private ParameterBagInterface $parameterBag,
         private MediaEntityService $mediaEntityService,
+        private string $storagePublicUrl
     ) {
     }
 
@@ -51,7 +50,7 @@ class MediaNormalizer implements NormalizerInterface
 
     protected function makeMediaUrl(string $path): string
     {
-        return rtrim($this->parameterBag->get('d_media.storage.public_url'), '/').'/'.ltrim($path, '/');
+        return rtrim($this->storagePublicUrl, '/').'/'.ltrim($path, '/');
     }
 
     #[Pure]

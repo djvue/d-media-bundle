@@ -1,30 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Djvue\DMediaBundle\Service;
 
 use Djvue\DMediaBundle\DTO\MediaGetListParametersDTO;
 use Djvue\DMediaBundle\DTO\MediaUpdateDTO;
 use Djvue\DMediaBundle\DTO\MediaUploadDTO;
 use Djvue\DMediaBundle\Entity\Media;
+use Djvue\DMediaBundle\Exceptions\MediaNotFoundException;
 use Djvue\DMediaBundle\Repository\MediaRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Djvue\DMediaBundle\Exceptions\MediaNotFoundException;
-use JetBrains\PhpStorm\ArrayShape;
-use League\Flysystem\FilesystemException;
-use League\Flysystem\FilesystemOperator;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class MediaService
+class MediaService implements MediaServiceInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private MediaRepository $repository,
         private SluggerInterface $slugger,
-        private FilesystemOperator $mediasStorage,
-        private ParameterBagInterface $parameterBag,
-        private MediaEntityService $mediaEntityService,
+        private MediaStorageInterface $storage,
+        private MediaEntityServiceInterface $mediaEntityService,
+        private string $storageDirectory,
+        private string $libraryImageExtensions,
     ) {
     }
 
@@ -60,18 +58,17 @@ class MediaService
     /**
      * @param MediaUploadDTO $dto
      * @return Media
-     * @throws FilesystemException
      */
     public function upload(MediaUploadDTO $dto): Media
     {
         $file = $dto->getFile();
         $entities = $dto->getEntities();
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = strtolower($this->slugger->slug($originalFilename));
+        $safeFilename = strtolower((string) $this->slugger->slug($originalFilename));
         $extension = $file->guessExtension() ?? 'unknown';
         $newFilename = $safeFilename.'-'.bin2hex(random_bytes(10)).'.'.$extension;
-        $path = trim($this->parameterBag->get('d_media.storage.directory'), '/').'/'.$newFilename;
-        $this->mediasStorage->write($path, $file->getContent());
+        $path = trim($this->storageDirectory, '/').'/'.$newFilename;
+        $this->storage->save($path, $file->getContent());
         $name = mb_strcut($originalFilename, 0, 255);
         $type = $this->getMediaTypeByExtension($extension);
         $media = new Media();
@@ -96,7 +93,7 @@ class MediaService
 
     private function getMediaTypeByExtension(string $extension): string
     {
-        $imageExtensions = $this->parameterBag->get('d_media.library.image_extensions');
+        $imageExtensions = $this->libraryImageExtensions;
         $imageExtensions = explode(',', $imageExtensions);
         $imageExtensions = array_map(static fn($ext) => trim($ext), $imageExtensions);
 

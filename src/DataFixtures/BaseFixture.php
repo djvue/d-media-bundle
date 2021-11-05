@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Djvue\DMediaBundle\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,7 +15,7 @@ use Faker\Generator;
  */
 abstract class BaseFixture extends Fixture
 {
-    private ObjectManager $manager;
+    protected ObjectManager $manager;
     protected Generator $faker;
 
     public function load(ObjectManager $manager): void

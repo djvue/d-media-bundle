@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Djvue\DMediaBundle\Service;
 
-use Djvue\DMediaBundle\Entity\Media;
 use Djvue\DMediaBundle\Entity\EntityHasMedia;
+use Djvue\DMediaBundle\Entity\Media;
 use Djvue\DMediaBundle\Repository\EntityHasMediaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class MediaEntityService
+class MediaEntityService implements MediaEntityServiceInterface
 {
     public function __construct(
+        private array $filterableEntities,
         private EntityManagerInterface $entityManager,
         private EntityHasMediaRepository $entityHasMediaRepository,
-        private ParameterBagInterface $parameterBag,
     ) {
     }
 
@@ -121,7 +122,7 @@ class MediaEntityService
             $mediasByType[$property] ??= [];
             $mediasByType[$property][$mediaEntity->getListOrder()] = $mediaEntity->getMedia();
         }
-        foreach ($mediasByType as $propertyName => &$medias) {
+        foreach ($mediasByType as &$medias) {
             ksort($medias);
             $medias = array_values($medias);
         }
@@ -183,7 +184,7 @@ class MediaEntityService
         $criteria = [
             'media' => $media,
         ];
-        $filterableEntities = $this->parameterBag->get('d_media.filterable_entities');
+        $filterableEntities = $this->filterableEntities;
         if ($filterableEntities !== []) {
             $criteria['entityType'] = $filterableEntities;
         }
@@ -224,7 +225,7 @@ class MediaEntityService
             'entityType' => $entityType,
             'propertyName' => $propertyName,
         ]);
-        $hasIds = array_map(fn($el) => $el->getEntityId(), $entityHasMedias);
+        $hasIds = array_map(static fn($el) => $el->getEntityId(), $entityHasMedias);
         foreach ($hasIds as $index => $hasId) {
             if (!in_array($hasId, $entityIds, true)) {
                 $this->entityManager->remove($entityHasMedias[$index]);

@@ -28,10 +28,7 @@ class MediaUploadVoter extends Voter
     }
 
     /**
-     * @param string $attribute
      * @param MediaUploadDTO $subject
-     * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {

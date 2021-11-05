@@ -1,9 +1,15 @@
 services:
-    Djvue\DMediaBundle\:
-        resource: '../../'
+    _defaults:
         autowire: true
         autoconfigure: true
-        public: true
+        bind:
+            Djvue\DMediaBundle\Service\MediaStorageInterface: '@d_media.media_storage'
+            Djvue\DMediaBundle\Service\MediaEntityServiceInterface: '@d_media.media_entity_service'
+            Djvue\DMediaBundle\Service\MediaServiceInterface: '@d_media.media_service'
+            array $filterableEntities: '%d_media.filterable_entities%'
+
+    Djvue\DMediaBundle\:
+        resource: '../../'
         exclude:
             - '../../DependencyInjection/'
             - '../../Entity/'
@@ -17,11 +23,34 @@ services:
         autowire: true
         public: true
 
+    Djvue\DMediaBundle\Normalizer\MediaNormalizer:
+        arguments:
+            $storagePublicUrl: '%d_media.storage.public_url%'
+
+    Djvue\DMediaBundle\Service\MediaStorageInterface:
+        class: Djvue\DMediaBundle\Service\MediaStorage
+
+    d_media.media_storage:
+        alias: 'Djvue\DMediaBundle\Service\MediaStorageInterface'
+        public: true
+
+    Djvue\DMediaBundle\Service\MediaServiceInterface:
+        class: Djvue\DMediaBundle\Service\MediaService
+        arguments:
+            $storageDirectory: '%d_media.storage.directory%'
+            $libraryImageExtensions: '%d_media.library.image_extensions%'
+
     d_media.media_service:
-        class: Djvue\DMedia\Service\MediaService
+        alias: Djvue\DMediaBundle\Service\MediaServiceInterface
+        public: true
+
+    Djvue\DMediaBundle\Service\MediaEntityServiceInterface:
+        class: Djvue\DMediaBundle\Service\MediaEntityService
 
     d_media.media_entity_service:
-        class: Djvue\DMedia\Service\MediaEntityService
+        alias: Djvue\DMediaBundle\Service\MediaEntityServiceInterface
+        public: true
 
     d_media.media_controller:
-        class: Djvue\DMedia\Controller\MediaController
+        class: Djvue\DMediaBundle\Controller\MediaController
+        public: true

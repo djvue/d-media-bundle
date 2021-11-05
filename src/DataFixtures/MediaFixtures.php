@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Djvue\DMediaBundle\DataFixtures;
 
 use Djvue\DMediaBundle\Entity\Media;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
 /**
@@ -13,11 +14,6 @@ use Doctrine\Persistence\ObjectManager;
 class MediaFixtures extends BaseFixture
 {
     public const FIRST_MEDIA_REFERENCE = 'first_media';
-
-    public function __construct(
-        private EntityManagerInterface $manager,
-    ) {
-    }
 
     public function loadData(ObjectManager $manager): void
     {

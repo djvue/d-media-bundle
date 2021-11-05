@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Djvue\DMediaBundle\Security;
 
 use Djvue\DMediaBundle\Entity\Media;
-use Djvue\DMediaBundle\Service\MediaEntityService;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -28,10 +29,7 @@ class MediaVoter extends Voter
     }
 
     /**
-     * @param string $attribute
      * @param Media $subject
-     * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {

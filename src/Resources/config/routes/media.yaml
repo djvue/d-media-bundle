@@ -1,24 +1,24 @@
 upload:
     path: ''
     methods: ['POST']
-    controller: Djvue\DMediaBundle\Controller\MediaController::upload
+    controller: d_media.media_controller::upload
 
 update:
     path: /{id<\d+>}
     methods: ['PUT']
-    controller: Djvue\DMediaBundle\Controller\MediaController::update
+    controller: d_media.media_controller::update
 
 delete:
     path: /{id<\d+>}
     methods: ['DELETE']
-    controller: Djvue\DMediaBundle\Controller\MediaController::delete
+    controller: d_media.media_controller::delete
 
 find:
     path: /{id<\d+>}
     methods: [ 'GET', 'HEAD' ]
-    controller: Djvue\DMediaBundle\Controller\MediaController::find
+    controller: d_media.media_controller::find
 
 getList:
     path: ''
     methods: ['GET', 'HEAD']
-    controller: Djvue\DMediaBundle\Controller\MediaController::getList
+    controller: d_media.media_controller::getList
