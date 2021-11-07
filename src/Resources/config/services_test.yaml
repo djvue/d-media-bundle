@@ -1,0 +1,3 @@
+services:
+    Djvue\DMediaBundle\Service\MediaStorageInterface:
+        class: Djvue\DMediaBundle\Service\StubMediaStorage
