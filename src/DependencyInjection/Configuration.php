@@ -28,6 +28,8 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('public_url')->defaultValue('/storage/uploads')->end()
                         ->scalarNode('directory')->defaultValue('uploads')->end()
+                        ->scalarNode('url_template_preview')->defaultValue('/storage/uploads/%s')->end()
+                        ->scalarNode('url_template_card')->defaultValue('/storage/uploads/%s')->end()
                     ->end()
                 ->end()
                 ->arrayNode('library')

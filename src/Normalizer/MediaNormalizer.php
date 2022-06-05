@@ -30,7 +30,10 @@ class MediaNormalizer implements NormalizerInterface
             'caption' => $object->getCaption() ?? '',
             'width' => $object->getWidth(),
             'height' => $object->getHeight(),
-            'sizes' => [],
+            'sizes' => [
+                'card' => '',
+                'preview' => '',
+            ],
         ];
 
         if (!empty($context['groups']) && $context['groups'] === ['outer']) {
