@@ -11,7 +11,9 @@ class MediaNormalizer implements NormalizerInterface
 {
     public function __construct(
         private MediaEntityService $mediaEntityService,
-        private string $storagePublicUrl
+        private string $storagePublicUrl,
+        private string $urlTemplatePreview,
+        private string $urlTemplateCard,
     ) {
     }
 
@@ -31,8 +33,8 @@ class MediaNormalizer implements NormalizerInterface
             'width' => $object->getWidth(),
             'height' => $object->getHeight(),
             'sizes' => [
-                'card' => '',
-                'preview' => '',
+                'card' => sprintf($this->urlTemplateCard, $object->getPath()),
+                'preview' => sprintf($this->urlTemplatePreview, $object->getPath()),
             ],
         ];
 

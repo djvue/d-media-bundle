@@ -22,6 +22,8 @@ class DMediaExtension extends Extension
 
         $container->setParameter('d_media.storage.public_url', $config['storage']['public_url']);
         $container->setParameter('d_media.storage.directory', $config['storage']['directory']);
+        $container->setParameter('d_media.storage.url_template_preview', $config['storage']['url_template_preview']);
+        $container->setParameter('d_media.storage.url_template_card', $config['storage']['url_template_card']);
         $container->setParameter('d_media.library.image_extensions', $config['library']['image_extensions']);
         $container->setParameter('d_media.filterable_entities', $config['filterable_entities']);
 

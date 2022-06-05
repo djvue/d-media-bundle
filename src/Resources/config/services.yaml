@@ -26,6 +26,8 @@ services:
     Djvue\DMediaBundle\Normalizer\MediaNormalizer:
         arguments:
             $storagePublicUrl: '%d_media.storage.public_url%'
+            $urlTemplatePreview: '%d_media.storage.url_template_preview%'
+            $urlTemplateCard: '%d_media.storage.url_template_card%'
 
     Djvue\DMediaBundle\Service\MediaStorageInterface:
         class: Djvue\DMediaBundle\Service\MediaStorage
