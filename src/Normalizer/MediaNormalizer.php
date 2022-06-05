@@ -42,7 +42,9 @@ class MediaNormalizer implements NormalizerInterface
             return $baseData;
         }
 
-        return $baseData + [
+        return [
+            'url' => sprintf($this->urlTemplateCard, $object->getPath()),
+        ] + $baseData + [
             'id' => $object->getId(),
             'type' => $object->getType(),
             'name' => $object->getName(),
