@@ -12,8 +12,6 @@ class MediaNormalizer implements NormalizerInterface
     public function __construct(
         private MediaEntityService $mediaEntityService,
         private string $storagePublicUrl,
-        private string $urlTemplatePreview,
-        private string $urlTemplateCard,
     ) {
     }
 
@@ -32,19 +30,14 @@ class MediaNormalizer implements NormalizerInterface
             'caption' => $object->getCaption() ?? '',
             'width' => $object->getWidth(),
             'height' => $object->getHeight(),
-            'sizes' => [
-                'card' => sprintf($this->urlTemplateCard, $object->getPath()),
-                'preview' => sprintf($this->urlTemplatePreview, $object->getPath()),
-            ],
+            'sizes' => [],
         ];
 
         if (!empty($context['groups']) && $context['groups'] === ['outer']) {
             return $baseData;
         }
 
-        return [
-            'url' => sprintf($this->urlTemplateCard, $object->getPath()),
-        ] + $baseData + [
+        return $baseData + [
             'id' => $object->getId(),
             'type' => $object->getType(),
             'name' => $object->getName(),
